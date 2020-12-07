@@ -13,7 +13,10 @@ public class PipeClick : MonoBehaviour
     private GameObject myOracle = null;
     public int flow = 1;
     public int broken = 1;
-    public int order = 1;
+    // using order for the nodes and neighbors for the edges in the pipe system
+    // order needs to start at 0 to work
+    public int order = 0;
+    public List<int> neighbors = new List<int>();
     private int selected = 0;
     public Material myMaterial;
     Vector3 spawnOracle;
@@ -115,10 +118,6 @@ public class PipeClick : MonoBehaviour
                     GameVariables.observedObjects.RemoveAt(i);
                 }
             }
-            if (GameVariables.oraclesPlaced < 2)
-            {
-                GameObject.Find("ConfirmTurn").SetActive(false);
-            }
             selected = 0;
         }
         //if it is now selected add it to the list of objects for the game logic to act on
@@ -129,6 +128,8 @@ public class PipeClick : MonoBehaviour
             changeMaterial.material.SetColor("_Color", Color.green);
             myOracle = Instantiate(Oracle, spawnOracle, Quaternion.identity);
             myOracle.transform.parent = transform;
+			myOracle.transform.Rotate(Vector3.up*180.0f);
+			myOracle.transform.Translate(Vector3.down);
             GameVariables.oraclesPlaced++;
             GameVariables.observedObjects.Add(gameObject);
         }
